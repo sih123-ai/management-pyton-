@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git url: 'https://github.com/username/python-app.git', branch: 'main'
+                git url: 'https://github.com/sih123-ai/management-pyton-.git', branch: 'main'
             }
         }
         stage('Install Dependencies') {
