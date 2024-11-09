@@ -12,24 +12,39 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Install Python dependencies
-                    sh 'pip3 install -r requirements.txt'
+                    // Make sure the full path to python3 and pip3 is used or activate virtual environment
+                    try {
+                        sh '/path/to/python3 -m pip install -r requirements.txt' // Adjust this path
+                    } catch (Exception e) {
+                        echo "Failed to install dependencies: ${e}"
+                        throw e
+                    }
                 }
             }
         }
         stage('Test Application') {
             steps {
                 script {
-                    // Run tests using pytest
-                    sh 'pytest tests'
+                    // Ensure pytest is installed and available in the environment
+                    try {
+                        sh '/path/to/python3 -m pytest tests' // Adjust this path if necessary
+                    } catch (Exception e) {
+                        echo "Tests failed: ${e}"
+                        throw e
+                    }
                 }
             }
         }
         stage('Build with Maven') {
             steps {
                 script {
-                    // Use Maven to build the project
-                    sh 'mvn clean install'
+                    try {
+                        // Use Maven to build the project
+                        sh 'mvn clean install'
+                    } catch (Exception e) {
+                        echo "Maven build failed: ${e}"
+                        throw e
+                    }
                 }
             }
         }
